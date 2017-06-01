@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<head>
+	<title>购物商场</title>
+	<meta charset="UTF-8"/>
+	<script type="text/javascript" src="../../jquery/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="../../js/addJsonData.js"></script>
+	<link rel="stylesheet" href="../../css/index.css" type="text/css"/>
+</head>
+<body>
+<header>
+	<input type="button" value ="加载数据" id="loaddata"/>
+	<table id="infotable">
+		<tbody><tr id="title"><th>姓名</th><th>性别</th><th>地址</th><th>主页</th></tr></tbody>
+	</table>
+</header>
+<hr/>
+<article>
+	<div id="showid">
+		<div class="showNav">
+			<div id="leftNav">
+				<div id="head" style="text-align: center;width: 70%;height: 4%;background: #0059a9;float:right;"></div>
+				<div class="navtitle" onmouseover="showTitle(this,1,'block','#0059a9');" onmouseleave="showTitle(this,1,'none');">
+					<div class="p1">值得推荐</div>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">魅族</div></a><a href="xiaomi"></a>
+					<div class="p1">锤子</div></a><a href="xiaomi"></a>
+					<div class="p1">华为</div></a><a href="xiaomi"></a>
+
+				</div>
+				<div class="navtitle" onmouseover="showTitle(this,2,'block','#0059a9');" onmouseleave="showTitle(this,1,'none');">
+					<div class="p1">手机通讯</div>
+					<div class="p1">快速充电</div></a><a href="xiaomi"></a>
+					<div class="p1">指纹识别</div></a><a href="xiaomi"></a>
+				</div>
+				<div class="navtitle" onmouseover="showTitle(this,3,'block','#0059a9');" onmouseleave="showTitle(this,1,'none');">
+					<div class="p1">畅销手机</div>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+
+				</div>
+				<div class="navtitle" onmouseover="showTitle(this,4,'block','#0059a9');" onmouseleave="showTitle(this,1,'none');">
+					<div class="p1">火热促销</div>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+					<div class="p1">小米</div></a><a href="xiaomi"></a>
+
+				</div>
+
+			</div>
+			<div id="showContent" onmouseover="showContentOfThisTitle(this,'on');" onmouseleave="showContentOfThisTitle(this,'off');">
+				<div class="oneOfContent">
+					<div class="oneOfFour"></div>
+					<div class="oneOfFour"></div>
+					<div class="oneOfFour"></div>
+					<div class="oneOfFour"></div>
+
+				</div>
+				<div class="oneOfContent">
+					<div style="width:100%;height:45%;"></div>
+					<img id="rightconimg"src="./image/phoneimg/hoting/hot1.jpg"/>
+				</div>
+			</div>
+		</div>
+		<div id="lunxunid">
+			<img src="../../image/background/lunxun1.jpg" id="lunxunpic">
+			<div style="margin-left: 40%;">
+			<div id="lunxundot0" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,1);"></div>
+			<div id="lunxundot1" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,2);"></div>
+			<div id="lunxundot2" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,3);"></div>
+			<div id="lunxundot3" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,4);"></div>
+			</div>
+		</div>
+		<div class="showNav">
+			<div id="loginstatus">
+				<img src="../../image/userimg/no_login.jpg" id="userloginimg" />
+				<div id="logininfo"><p>抱歉，您还为登陆</p></div><br>
+				<a href="/login" class="loginstyle"><p>登&nbsp;&nbsp;陆&nbsp;&nbsp;&nbsp;</p></a><br>
+				<a href="register.html" class="loginstyle"><p>注&nbsp;&nbsp;册&nbsp;&nbsp;&nbsp;</p></a>
+			</div>
+			<div id="login">
+				<div class="showNav"></div>
+			</div>
+			<div id="gonggao">
+				<div id="loginid">
+					<table>
+						<form>
+							<tr>
+								<td>用户名</td>
+								<td>&nbsp;<input type="text" class="searchboxwid;" style="width: 80px;;" required
+												 pattern="[A-Z|a-z]{6,24}|[a-z|0-9]+@[1-9|a-z]+\.c[n|o][m]?|[1-9][0-9]{10}"></input></td>
+							</tr><br>
+							<tr>
+								<td>密&nbsp;&nbsp;&nbsp;码</td>
+								<td>&nbsp;<input type="password" class="searchboxwid;" style="width: 80px;;" required
+												 pattern="[a-z|A-Z|0-9|`|~|!|@|#|$|%|^|&|*|(|)|_|+|-|=|[|]|{|}|\||;|:|']{6,30}"></input></td>
+							</tr>
+							<tr ><td ><input style="width:80px ;height: 25px;border-radius: 5%;border:0;"type="button" value="登  陆" onclick="userlogin();"/></td>
+							</tr>
+						</form>
+					</table>
+					<div style="width:100%;heigth:10px;"></div>
+					<div style="width:100%;heigth:10px;"></div>
+
+				</div>
+				<div id="gonggaoid"></div>
+			</div>
+		</div>
+	</div>
+</article>
+<hr/>
+<footer>
+
+</footer>
+<script type="text/javascript" src="../../js/index.js"></script>
+</body>
+</html>

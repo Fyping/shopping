@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.com.fangself.model.dao.ShopCartMapper" >
+
+  
+   <select id="selectTotalProductCount" parameterType="cn.com.fangself.model.pojo.Member" resultType="int">
+   	 select count(b.goodsid) from tb_BuyInfo a,tb_ShopCart c where a.buyid = c.buyid and c.memberid = #{memberid};
+   </select>
+   
+   <select id="selectTotalProductPrice" parameterType="cn.com.fangself.model.pojo.Member" resultType="double">
+   	select sum(d.goodsprice ) from tb_GoodsInfo d, tb_BuyInfo a,tb_ShopCart c where a.buyid = c.buyid and c.memberid = #{memberid} and d.buyid = a.buyid;
+   </select>
+   	
+   <select id="selectTotalProducts" parameterType="cn.com.fangself.model.pojo.Member" resultType="cn.com.fangself.model.pojo.GoodsInfo">
+   	select 
+	goodsinfo.goodsbrand ,goodsinfo.goodsdescript ,goodsinfo.goodsprice ,goodsinfo.goodsurl
+ 	from tb_GoodsInfo goodsinfo, tb_BuyInfo buyinfo ,tb_ShopCart shocart 
+ 	where 
+ 		buyinfo.buyid = shocart.buyid  
+ 	and goodsinfo.goodsid = buyinfo.goodsid 
+ 	and shocart.memberid = #{memberid};
+   </select>
+   
+  
+</mapper>
