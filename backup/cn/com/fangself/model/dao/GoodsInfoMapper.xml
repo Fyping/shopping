@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.com.fangself.model.dao.GoodsInfoMapper" >
+
+<!--    <select id="selectByPrimaryKey" parameterType="cn.com.fangself.model.pojo.GoodsInfo" resultType="cn.com.fangself.model.pojo.GoodsInfo">
+   	select * from tb_GoodsInfo where goodsid =#{goodsid}
+   </select>
+   
+   <select id="selectByPartOfBrandName" parameterType="cn.com.fangself.model.pojo.GoodsInfo" resultType="cn.com.fangself.model.pojo.GoodsInfo">
+   	select * from tb_GoodsInfo where goodsbrand =#{goodsbrand}
+   </select>
+   
+   <select id="selectByPartStringOfGoodsDescript" parameterType="cn.com.fangself.model.pojo.GoodsInfo" resultType="cn.com.fangself.model.pojo.GoodsInfo">
+   	select * from tb_GoodsInfo where goodsdescript =#{goodsdescript}
+   </select>
+   
+    <select id="selectAllGoodsInfo" resultType="cn.com.fangself.model.pojo.GoodsInfo">
+   	select * from tb_GoodsInfo
+   </select> -->
+  	<select id="testSqlConnection" resultType="int" >
+  		select count(*) from tb_GoodsInfo
+  	</select>
+</mapper>

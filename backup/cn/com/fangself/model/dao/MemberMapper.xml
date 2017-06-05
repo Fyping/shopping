@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.com.fangself.model.dao.MemberMapper" >
+  
+	<select id="selectMemberByMemberEmailAndPwd" parameterType="cn.com.fangself.model.pojo.Member" 
+			resultType="cn.com.fangself.model.pojo.Member">
+		select * from tb_Member where email = #{email} and userpwd = #{userpwd};
+	</select>
+	
+	<select id="selectMemberByMemberPhonenumAndPwd" 
+			parameterType="cn.com.fangself.model.pojo.Member" 
+			resultType="cn.com.fangself.model.pojo.Member">
+		select * from tb_Member where phonenum = #{phonenum} and userpwd = #{userpwd};
+	</select>  
+	
+	<select id="selectAllInfomationForThisMemberByMemberidAnd" parameterType="cn.com.fangself.model.pojo.Member" resultType="cn.com.fangself.model.pojo.Member">
+		select * from tb_Member where memberid = #{memberid} and userpwd = #{userpwd};
+	</select> 
+	
+	<select id="selectMemberUUIDByHisEmail" parameterType="String" resultType="String">
+		select memberuuid from tb_Member where email = #{email};
+	</select> 
+
+	<select id="selectMemberUUIDByHisPhonenum" parameterType="String" resultType="String">
+		select memberuuid from tb_Member where phonenum = #{phonenum};
+	</select> 
+	
+	<update id="updateMemberForUsernameByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set username=#{username} where memberuuid = #{memberuuid}
+	</update>
+	
+	<update id="updateMemberForUserpwdByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set userpwd=#{userpwd} where memberuuid = #{memberuuid}
+	</update>
+	
+	<update id="updateMemebrForEmailByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set email=#{email} where memberuuid = #{memberuuid}
+	</update>
+	
+	<update id="updateMemberForPhonenumByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set phonenum=#{phonenum} where memberuuid = #{memberuuid}
+	</update>
+	
+	<update id="updateMemberForRealnameByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set realname=#{realname} where memberuuid = #{memberuuid}
+	</update>
+	
+	<update id="updateMemberForAddressByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set address=#{address} where memberuuid = #{memberuuid}
+	</update>
+	
+	<update id="updateMemberForPostcodeByUUID"  parameterType="cn.com.fangself.model.pojo.Member" >
+		update tb_Member set postcode=#{postcode} where memberuuid = #{memberuuid}
+	</update>	
+	
+	<insert id="insertAMember" parameterType="cn.com.fangself.model.pojo.Member">
+		insert into 
+		tb_Member (memberuuid,username,userpwd,email,phonenum,sex,realname,address,postcode)
+		values(#{memberuuid},#{username},#{userpwd},#{email},#{phonenum},#{sex},#{realname},#{address},#{postcode});	
+	</insert>
+	
+</mapper>
