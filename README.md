@@ -1,2 +1,4 @@
 https://github.com/Fyping/shopping.git
 这个是我的javaweb商城项目
+mybatisGeneratorCodeTemplate 这个是mybatis 生成相应的mapper.xml和mapper.java的模板文件，
+根据需求配置好这个文件就可以实现从数据库到pojo对象的逆向工程

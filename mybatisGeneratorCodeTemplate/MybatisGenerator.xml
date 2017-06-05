@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <classPathEntry location="D:\mavenProJar\mysql-connector-java-5.1.39-bin.jar" />
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+   <!--     <jdbcConnection driverClass="COM.ibm.db2.jdbc.app.DB2Driver"
+        connectionURL="jdbc:db2:TEST"
+        userId="db2admin"
+        password="db2admin">
+    </jdbcConnection>
+   -->
+   <!-- 需要配置的几个地方，这里详细说明一下 -->
+   <!-- 1.数据库链接的url，和用户名，密码 -->
+   <jdbcConnection driverClass="com.mysql.jdbc.Driver"  
+           connectionURL="sql url " 
+           userId="username" password="密码" />
+            
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+    <!-- 2.生成模型的包名和位置 -->  
+    <javaModelGenerator targetPackage="。。。。。。。。。。.pojo"
+     	targetProject="目标位置">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+    
+	<!-- 3.生成的映射文件报名和位置 -->  
+    <sqlMapGenerator targetPackage="。。。。。。。.dao"
+    	targetProject="目标位置">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+  <!-- 生成DAO的包名和位置 --> 
+    <javaClientGenerator type="XMLMAPPER" targetPackage="。。。。。。.dao"  
+    targetProject="目标位置">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+ 
+ 	<!-- 要生成的那些表(更改tableName 和domainObjectName 就可以了) -->  
+    <table schema="DB2ADMIN" tableName="tb_Admin" domainObjectName="Admin" >
+      <property name="useActualColumnNames" value="true"/>
+      <!-- 表的主键配置，这是比较重要的配置 generatedKey  -->
+      <generatedKey column="adminid" sqlStatement="MySql" identity="true" />
+      <columnOverride column="DATE_FIELD" property="startDate" />
+      <ignoreColumn column="FRED" />
+      <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+     </table>
+  </context>
+</generatorConfiguration>
