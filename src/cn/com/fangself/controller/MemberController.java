@@ -1,6 +1,6 @@
 package cn.com.fangself.controller;
 
-import java.util.List;
+import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.com.fangself.model.pager.PageBean;
 import cn.com.fangself.model.to.queryto.GoodsInfoQueryTo;
 import cn.com.fangself.model.to.queryto.MemberQueryTo;
+import cn.com.fangself.model.vo.ItemVo;
 import cn.com.fangself.service.impl.GoodsInfoServiceImpl;
 import cn.com.fangself.service.impl.MemberServiceImpl;
 /**
@@ -18,7 +19,9 @@ import cn.com.fangself.service.impl.MemberServiceImpl;
  * 注册、登陆
  * 查看库里的所有的商品:分页显示，分页查询
  * 查看自己购物车中的所有商品
- * 
+ * 20170607：
+ * 今天发现的重大BUG：eclipse 中的项目直接导入intellij时，intellij会默认对eclipse 中的一些包报错，删掉那些包才能运行，
+ * 当再次把intellij 中的项目导入eclipse 中时，由于缺少eclipse 中原来的jar包，出现了一系列错误,比如控制器，
  * */
 @Controller
 public class MemberController {
@@ -28,12 +31,27 @@ public class MemberController {
 	@Autowired(required=true)
 	GoodsInfoServiceImpl goodsInfoServiceImpl;
 	
-	@RequestMapping(value="/test",method=RequestMethod.GET)
+	@RequestMapping(value="/test.action",method=RequestMethod.GET)
 	public void sayHello(){
 		System.out.println("okokoko");
-		MemberQueryTo member = new MemberQueryTo();
-		memberServiceImpl.ListShopCartAllProductsOfThisMember(member);
+		
 	}
+	
+	@RequestMapping(value="/getExecutionResult.action",method=RequestMethod.POST)
+	public void getExecuteResult(javax.servlet.http.HttpServletRequest request){
+		System.out.println("hello");
+		ItemVo itemVo = new ItemVo();
+		Enumeration<String> enumeration = request.getParameterNames();
+		String values [] = null;
+		while(enumeration.hasMoreElements()){
+			String name = enumeration.nextElement();
+			values = request.getParameterValues(name);
+		}
+		itemVo.setAns(values[0]);
+		System.out.println(itemVo.getAns());
+		memberServiceImpl.compileResult(itemVo);
+	}
+	
 	@RequestMapping(value="/goodsdetails.action",method=RequestMethod.POST)
 	public ModelAndView  ListAllGoodsInfoForMember(javax.servlet.http.HttpServletRequest request){
 		System.out.println("start show goods details !!!!!!!!!!");

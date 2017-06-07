@@ -1,9 +1,12 @@
 package cn.com.fangself.generator.mybatis.model.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import cn.com.fangself.generator.mybatis.model.pojo.Member;
 import cn.com.fangself.generator.mybatis.model.pojo.MemberExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import cn.com.fangself.model.vo.MemberVo;
 
 public interface MemberMapper {
     /**
@@ -93,4 +96,11 @@ public interface MemberMapper {
      * @mbg.generated Mon May 29 15:39:24 GMT+08:00 2017
      */
     int updateByPrimaryKey(Member record);
+    
+    
+    /**
+     * 验证用户登陆的合法性
+     * 返回登陆成功的对象，否则返回 null
+     * */
+    MemberVo selectByMemberVo(MemberVo memberVo);
 }

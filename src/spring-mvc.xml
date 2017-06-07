@@ -10,13 +10,27 @@
   http://www.springframework.org/schema/mvc  
   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
   
+   <!--     <context:annotation-config/> -->
   <!-- 开启controller注解支持 -->
-<context:component-scan base-package="cn.com.fangself.controller" use-default-filters="false">
-<context:include-filter type="annotation"
-expression="org.springframework.stereotype.Controller"/>
-</context:component-scan>
+  <!--   进行页面跳转时，始终报404，因为在控制器扫描时未将控制层与其余注解区别，修改后代码如下 -->
+ 	<context:component-scan base-package="cn.com.fangself.controller" use-default-filters="false">
+	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+<!--      <context:component-scan base-package = "cn.com.fangself.controller" >  
+       <context:exclude-filter type = "annotation"  
+           expression = "org.springframework.stereotype.Service" />  
+           不扫描有@service 注解的类
+            <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+    </context:component-scan >    -->
+    
+      	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->
+ 	 <mvc:default-servlet-handler/>
+ 	 <mvc:annotation-driven/>
+ 	<!--  <mvc:annotation-driven enable-matrix-variables="true"/> -->
 
- <!--  <context:component-scan base-package="cn.com.fangself.controller" /> -->
+	<!-- <bean class="cn.com.fangself.controller.MemberController"/>
+ -->
+<!--   <context:component-scan base-package="cn.com.fangself.controller" />  -->
    <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
    <bean id="mappingJacksonHttpMessageConverter"
     class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -45,7 +59,5 @@ expression="org.springframework.stereotype.Controller"/>
         <property name="maxUploadSize" value="10485760000" />  
         <property name="maxInMemorySize" value="40960" />  
     </bean> 
-  	<!--访问静态页面  -->
- 	 <mvc:default-servlet-handler/>
- 	 <mvc:annotation-driven/>
+
 </beans>

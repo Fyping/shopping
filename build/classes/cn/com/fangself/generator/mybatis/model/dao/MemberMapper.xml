@@ -18,6 +18,8 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="postcode" jdbcType="VARCHAR" property="postcode" />
   </resultMap>
+  
+ 
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbg.generated
@@ -363,4 +365,32 @@
       postcode = #{postcode,jdbcType=VARCHAR}
     where memberid = #{memberid,jdbcType=INTEGER}
   </update>
+  
+
+  <!-- <resultMap id="SecondResultMap" type="cn。com。fangself。model.vo。MemberVo">
+  		这是我编程历史上最坑爹的一个bug               cn.com.fangself.model.vo.MemberVo
+  		仔细地对比才发现，点 并不是半角的英文  
+  -->
+  <!-- method : MemberVo selectByMemberVo(MemberVo memberVo); -->
+   <select id="selectByMemberVo" resultType="cn.com.fangself.model.vo.MemberVo"
+    	parameterType="cn.com.fangself.model.vo.MemberVo">
+    	<!-- 	public String  username ;
+	public String  userpwd ;
+	public String  phonenum ;
+	public String  email;
+	 -->
+   			select * from tb_Member where userpwd = #{userpwd} 
+   			<where> 
+	   				<if test="username!=null">
+	   					and username=#{username}
+	   				</if>
+	   			 	<if test="email!=null">
+	   			 		and email=#{email}
+	   			 	</if> 
+	   			 	<if test="phonenum!=null">
+	 					and phonenum = #{phonenum}
+	   			 	</if>
+	   		</where>
+   </select>
+  
 </mapper>

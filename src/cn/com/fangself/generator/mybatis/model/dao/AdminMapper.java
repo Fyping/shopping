@@ -3,6 +3,7 @@ package cn.com.fangself.generator.mybatis.model.dao;
 import cn.com.fangself.generator.mybatis.model.pojo.Admin;
 import cn.com.fangself.generator.mybatis.model.pojo.AdminExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface AdminMapper {
