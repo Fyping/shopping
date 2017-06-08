@@ -64,12 +64,28 @@ System.out.println(basePath);
 	</form>
 	<br>
 	<br>
-	<br>
-	<br>
 	<form action="getExecutionResult.action" method="post">
 		<textarea name = "ans" cols=20 >public class Test { public static void main(String []args){ System.out.println("helloworld");}   }</textarea><br>
 		<input type="submit" value="/getExecutionResult.action"/>
 		<br>
 	</form>	
+		<br>
+	<br>
+	<img  src="vcode.action" style="width:120px;height:40px;"/>
+	<p><br>验证码是:</p>
+	<script>
+	function sendVcode(){
+		var vcode = document.getElementById("vcode");
+		//alert("send " + vcode.value);
+	    var xhr = new XmlHttpRequest();
+		xhr.open("GET","vcode.action",true);
+		xhr.send(vcode.value); 
+		
+	};
+	</script>
+	<form action="vcode.action" method="GET">
+		<input id ="vcode" type="TEXT" name="vcode"/>
+		<input type="button" value="提交" onclick="sendVcode();"/>
+	</form>
   </body>
 </html>

@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
@@ -19,456 +19,458 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import cn.com.fangself.model.vo.MemberVo;
 
-public class RequestForMember implements javax.servlet.http.HttpServletRequest {
+public class RequestForMember extends HttpServletRequestWrapper {
 
 	public MemberVo memberVo = null;
 	
-	javax.servlet.http.HttpServletRequest httpServletRequest =null;
+	public HttpServletRequest  request= null;
 	
-	public RequestForMember(){
+	public RequestForMember(HttpServletRequest request) {
+		super(request);
+		this.request = (HttpServletRequest)super.getRequest();
+		System.out.println("user name is "+ this.request.getParameter("username"));
+		this.memberVo = getMemberVo();
+		System.out.println("memberVo is " + this.memberVo);
 		
-	}
-	public RequestForMember(javax.servlet.http.HttpServletRequest httpServletRequest){
-		this.httpServletRequest = httpServletRequest;
-		this.memberVo = this.getMemberVo();
 	}
 	public MemberVo getMemberVo(){
-		MemberVo memberVo = new MemberVo();
-		Enumeration<String> paramsNames = this.httpServletRequest.getAttributeNames();
-		System.out.println(paramsNames);
-		while(paramsNames.hasMoreElements()){
-			String name = paramsNames.nextElement();
-			String value = this.getParameter(name);
-			System.out.println("name  = "+name+"   value " + value);
-			 
-			if("username".equals(name)){
-				memberVo.setUsername(value);
-			}else if("userpwd".equals(name)){
-				memberVo.setUserpwd(value);
-			}else if("email".equals(name)){
-				memberVo.setEmail(value);
-			}else if("phonenum".equals(name)){
-				memberVo.setPhonenum(value);
-			}else if("sex".equals(name)){
-				Integer sexInt = 0;
-				if(value.matches("\\d")){
-					sexInt = Integer.valueOf(value);
-				}
-				memberVo.setSex(sexInt);
-			}else if("realname".equals(name)){
-				memberVo.setRealname(value);
-			}else if("address".equals(name)){
-				memberVo.setAddress(value);
-			}else if("postcode".equals(name)){
-				memberVo.setPostcode(value);
-			}	
+		
+		MemberVo memberVoCp = new MemberVo();
+		memberVoCp.setUsername(this.request.getParameter("username"));
+		memberVoCp.setUserpwd(this.request.getParameter("userpwd"));
+		memberVoCp.setEmail(this.request.getParameter("email"));
+		memberVoCp.setAddress(this.request.getParameter("address"));
+		memberVoCp.setMemberuuid(this.request.getParameter("memberuuid"));
+		memberVoCp.setPhonenum(this.request.getParameter("phonenum"));
+		memberVoCp.setPostcode(this.request.getParameter("postcode"));
+		memberVoCp.setRealname(this.request.getParameter("realname"));
+		try{
+			Integer sex = Integer.parseInt(this.request.getParameter("sex"));
+			memberVoCp.setSex(sex);
+			Integer memberId = Integer.parseInt(this.request.getParameter("memberid"));
+			memberVoCp.setMemberid(memberId);
+		}catch(NumberFormatException nfe){
+			
 		}
-		return memberVo;
+		return memberVoCp;
+	}
+	@Override
+	public String getParameter(String name) {
+		String nameValue = super.getParameter(name);
+		if(this.request.getMethod().equals("GET")){
+			try {
+				name = new String(nameValue.getBytes("ISO-8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		return nameValue;
+	}
+
+	@Override
+	public Enumeration<String> getParameterNames() {
+		if(this.request.getMethod().equals("GET")){
+			Enumeration<String> enumeration = getParameterNames();
+			Vector<String> paramNames = new Vector<String>();
+			while(enumeration.hasMoreElements()){
+				String names = enumeration.nextElement();
+				paramNames.add(names);
+			}
+			return  paramNames.elements();
+		}else{
+			return super.getParameterNames();
+		}
+	}
+
+	@Override
+	public String[] getParameterValues(String name) {
+		if(this.request.getMethod().equals("GET")){
+			String[] values = super.getParameterValues(name);
+			for(int i=0;i<values.length;i++){
+				try {
+					values[i] = new String(values[i].getBytes("ISO-8859-1"),"UTF-8");
+				} catch (UnsupportedEncodingException e) {
+				}
+			}
+			return values;
+		}else{
+			return super.getParameterValues(name);	
+		}
 	}
 	
+	
+	/**
+	 * The following method is overrided bacause of test needs 
+	 * */
 	@Override
-	public Object getAttribute(String arg0) {
-		
-		return null;
-	}
-
-	@Override
-	public Enumeration getAttributeNames() {
+	public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		return null;
+		return super.authenticate(response);
 	}
-
-	@Override
-	public String getCharacterEncoding() {
-		
-		return null;
-	}
-
-	@Override
-	public int getContentLength() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getContentType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ServletInputStream getInputStream() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getLocalAddr() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getLocalName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getLocalPort() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Locale getLocale() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Enumeration getLocales() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getParameter(String arg0) {
-		
-		return null;
-	}
-
-	@Override
-	public Map getParameterMap() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Enumeration getParameterNames() {
-		return null;
-	}
-
-	@Override
-	public String[] getParameterValues(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getProtocol() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BufferedReader getReader() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getRealPath(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getRemoteAddr() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getRemoteHost() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getRemotePort() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public RequestDispatcher getRequestDispatcher(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getScheme() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getServerName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getServerPort() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isSecure() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void removeAttribute(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setAttribute(String arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setCharacterEncoding(String arg0) throws UnsupportedEncodingException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public String getAuthType() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getAuthType();
 	}
-
 	@Override
 	public String getContextPath() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getContextPath();
 	}
-
 	@Override
 	public Cookie[] getCookies() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getCookies();
 	}
-
 	@Override
-	public long getDateHeader(String arg0) {
+	public long getDateHeader(String name) {
 		// TODO Auto-generated method stub
-		return 0;
+		return super.getDateHeader(name);
 	}
-
 	@Override
-	public String getHeader(String arg0) {
+	public String getHeader(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getHeader(name);
 	}
-
 	@Override
-	public Enumeration getHeaderNames() {
+	public Enumeration<String> getHeaderNames() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getHeaderNames();
 	}
-
 	@Override
-	public Enumeration getHeaders(String arg0) {
+	public Enumeration<String> getHeaders(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getHeaders(name);
 	}
-
 	@Override
-	public int getIntHeader(String arg0) {
+	public int getIntHeader(String name) {
 		// TODO Auto-generated method stub
-		return 0;
+		return super.getIntHeader(name);
 	}
-
 	@Override
 	public String getMethod() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getMethod();
 	}
-
+	@Override
+	public Part getPart(String name) throws IllegalStateException, IOException, ServletException {
+		// TODO Auto-generated method stub
+		return super.getPart(name);
+	}
+	@Override
+	public Collection<Part> getParts() throws IllegalStateException, IOException, ServletException {
+		// TODO Auto-generated method stub
+		return super.getParts();
+	}
 	@Override
 	public String getPathInfo() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getPathInfo();
 	}
-
 	@Override
 	public String getPathTranslated() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getPathTranslated();
 	}
-
 	@Override
 	public String getQueryString() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getQueryString();
 	}
-
 	@Override
 	public String getRemoteUser() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getRemoteUser();
 	}
-
 	@Override
 	public String getRequestURI() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getRequestURI();
 	}
-
 	@Override
 	public StringBuffer getRequestURL() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getRequestURL();
 	}
-
 	@Override
 	public String getRequestedSessionId() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getRequestedSessionId();
 	}
-
 	@Override
 	public String getServletPath() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getServletPath();
 	}
-
 	@Override
 	public HttpSession getSession() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getSession();
 	}
-
 	@Override
-	public HttpSession getSession(boolean arg0) {
+	public HttpSession getSession(boolean create) {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getSession(create);
 	}
-
 	@Override
 	public Principal getUserPrincipal() {
 		// TODO Auto-generated method stub
-		return null;
+		return super.getUserPrincipal();
 	}
-
 	@Override
 	public boolean isRequestedSessionIdFromCookie() {
 		// TODO Auto-generated method stub
-		return false;
+		return super.isRequestedSessionIdFromCookie();
 	}
-
 	@Override
 	public boolean isRequestedSessionIdFromURL() {
 		// TODO Auto-generated method stub
-		return false;
+		return super.isRequestedSessionIdFromURL();
 	}
-
 	@Override
 	public boolean isRequestedSessionIdFromUrl() {
 		// TODO Auto-generated method stub
-		return false;
+		return super.isRequestedSessionIdFromUrl();
 	}
-
 	@Override
 	public boolean isRequestedSessionIdValid() {
 		// TODO Auto-generated method stub
-		return false;
+		return super.isRequestedSessionIdValid();
 	}
-
 	@Override
-	public boolean isUserInRole(String arg0) {
+	public boolean isUserInRole(String role) {
 		// TODO Auto-generated method stub
-		return false;
+		return super.isUserInRole(role);
 	}
-
 	@Override
-	public AsyncContext getAsyncContext() {
+	public void login(String username, String password) throws ServletException {
 		// TODO Auto-generated method stub
-		return null;
+		super.login(username, password);
 	}
-
-	@Override
-	public DispatcherType getDispatcherType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ServletContext getServletContext() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAsyncStarted() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isAsyncSupported() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public AsyncContext startAsync() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AsyncContext startAsync(ServletRequest arg0, ServletResponse arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean authenticate(HttpServletResponse arg0) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Part getPart(String arg0) throws IOException, IllegalStateException, ServletException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<Part> getParts() throws IOException, IllegalStateException, ServletException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void login(String arg0, String arg1) throws ServletException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void logout() throws ServletException {
 		// TODO Auto-generated method stub
-		
+		super.logout();
+	}
+	@Override
+	public AsyncContext getAsyncContext() {
+		// TODO Auto-generated method stub
+		return super.getAsyncContext();
+	}
+	@Override
+	public Object getAttribute(String name) {
+		// TODO Auto-generated method stub
+		return super.getAttribute(name);
+	}
+	@Override
+	public Enumeration<String> getAttributeNames() {
+		// TODO Auto-generated method stub
+		return super.getAttributeNames();
+	}
+	@Override
+	public String getCharacterEncoding() {
+		// TODO Auto-generated method stub
+		return super.getCharacterEncoding();
+	}
+	@Override
+	public int getContentLength() {
+		// TODO Auto-generated method stub
+		return super.getContentLength();
+	}
+	@Override
+	public String getContentType() {
+		// TODO Auto-generated method stub
+		return super.getContentType();
+	}
+	@Override
+	public DispatcherType getDispatcherType() {
+		// TODO Auto-generated method stub
+		return super.getDispatcherType();
+	}
+	@Override
+	public ServletInputStream getInputStream() throws IOException {
+		// TODO Auto-generated method stub
+		return super.getInputStream();
+	}
+	@Override
+	public String getLocalAddr() {
+		// TODO Auto-generated method stub
+		return super.getLocalAddr();
+	}
+	@Override
+	public String getLocalName() {
+		// TODO Auto-generated method stub
+		return super.getLocalName();
+	}
+	@Override
+	public int getLocalPort() {
+		// TODO Auto-generated method stub
+		return super.getLocalPort();
+	}
+	@Override
+	public Locale getLocale() {
+		// TODO Auto-generated method stub
+		return super.getLocale();
+	}
+	@Override
+	public Enumeration<Locale> getLocales() {
+		// TODO Auto-generated method stub
+		return super.getLocales();
+	}
+	@Override
+	public Map<String, String[]> getParameterMap() {
+		// TODO Auto-generated method stub
+		return super.getParameterMap();
+	}
+	@Override
+	public String getProtocol() {
+		// TODO Auto-generated method stub
+		return super.getProtocol();
+	}
+	@Override
+	public BufferedReader getReader() throws IOException {
+		// TODO Auto-generated method stub
+		return super.getReader();
+	}
+	@Override
+	public String getRealPath(String path) {
+		// TODO Auto-generated method stub
+		return super.getRealPath(path);
+	}
+	@Override
+	public String getRemoteAddr() {
+		// TODO Auto-generated method stub
+		return super.getRemoteAddr();
+	}
+	@Override
+	public String getRemoteHost() {
+		// TODO Auto-generated method stub
+		return super.getRemoteHost();
+	}
+	@Override
+	public int getRemotePort() {
+		// TODO Auto-generated method stub
+		return super.getRemotePort();
+	}
+	@Override
+	public ServletRequest getRequest() {
+		// TODO Auto-generated method stub
+		return super.getRequest();
+	}
+	@Override
+	public RequestDispatcher getRequestDispatcher(String path) {
+		// TODO Auto-generated method stub
+		return super.getRequestDispatcher(path);
+	}
+	@Override
+	public String getScheme() {
+		// TODO Auto-generated method stub
+		return super.getScheme();
+	}
+	@Override
+	public String getServerName() {
+		// TODO Auto-generated method stub
+		return super.getServerName();
+	}
+	@Override
+	public int getServerPort() {
+		// TODO Auto-generated method stub
+		return super.getServerPort();
+	}
+	@Override
+	public ServletContext getServletContext() {
+		// TODO Auto-generated method stub
+		return super.getServletContext();
+	}
+	@Override
+	public boolean isAsyncStarted() {
+		// TODO Auto-generated method stub
+		return super.isAsyncStarted();
+	}
+	@Override
+	public boolean isAsyncSupported() {
+		// TODO Auto-generated method stub
+		return super.isAsyncSupported();
+	}
+	@Override
+	public boolean isSecure() {
+		// TODO Auto-generated method stub
+		return super.isSecure();
+	}
+	@Override
+	public boolean isWrapperFor(ServletRequest wrapped) {
+		// TODO Auto-generated method stub
+		return super.isWrapperFor(wrapped);
+	}
+	@Override
+	public boolean isWrapperFor(Class wrappedType) {
+		// TODO Auto-generated method stub
+		return super.isWrapperFor(wrappedType);
+	}
+	@Override
+	public void removeAttribute(String name) {
+		// TODO Auto-generated method stub
+		super.removeAttribute(name);
+	}
+	@Override
+	public void setAttribute(String name, Object o) {
+		// TODO Auto-generated method stub
+		super.setAttribute(name, o);
+	}
+	@Override
+	public void setCharacterEncoding(String enc) throws UnsupportedEncodingException {
+		// TODO Auto-generated method stub
+		super.setCharacterEncoding(enc);
+	}
+	@Override
+	public void setRequest(ServletRequest request) {
+		// TODO Auto-generated method stub
+		super.setRequest(request);
+	}
+	@Override
+	public AsyncContext startAsync() {
+		// TODO Auto-generated method stub
+		return super.startAsync();
+	}
+	@Override
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
+			throws IllegalStateException {
+		// TODO Auto-generated method stub
+		return super.startAsync(servletRequest, servletResponse);
+	}
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
 	}
 	@Override
 	public String toString() {
-		return "RequestForMember [memberVo=" + memberVo + ", httpServletRequest=" + httpServletRequest + "]";
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
-
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+	}
+	
+	
 }
