@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <title>Travel</title>
+ <meta charset="UTF-8"/>
+ <script type="text/javascript" src="../../jquery/jquery-3.2.1.js"></script>
+ <script type="text/javascript" src="../../js/addJsonData.js"></script>
+ <link rel="stylesheet" href="../../css/register.css" type="text/css"/>
+ </head>
+ <body>
+  <header>
+  </header>
+  <article>
+   <div id="topcontent">
+    <div id="search">
+	 <div id="searchtop">
+	  用户注册
+	 </div>
+	 <div id="searchform">
+	  <div style="width:100%;height:20%"></div>
+	  <table style="width:100%;align:center">
+	   <tr><td class="searchbox">用户名：</td><td><input name="username" type="text" class="searchboxwid" onmouseover="changeBoxStyle(this ,'red');"  onmouseleave="changeBoxStyle(this,'gray');"/></td><tr>
+		<tr><td class="searchbox">电话号码：</td><td><input name="phonenum" type="text" class="searchboxwid" onmouseover="changeBoxStyle(this ,'red');"  onmouseleave="changeBoxStyle(this,'gray');"/></td><tr>
+   	   <tr><td class="searchbox">电子邮箱：</td><td><input name="email"type="text" class="searchboxwid" onmouseover="changeBoxStyle(this ,'red');"  onmouseleave="changeBoxStyle(this,'gray');"/></td><tr>
+   	   <tr><td class="searchbox">密&nbsp;&nbsp;码：</td><td><input name="userpwd"type="text" class="searchboxwid" onmouseover="changeBoxStyle(this ,'red');"  onmouseleave="changeBoxStyle(this,'gray');"/></td><tr>
+		<tr><td class="searchbox">再次输入密码:</td><td><input name="userpwd"type="text" class="searchboxwid" onmouseover="changeBoxStyle(this ,'red');"  onmouseleave="changeBoxStyle(this,'gray');"/></td><tr>
+	  </table>
+	  <div style="width:100%;height:5%"></div>
+		 <div style="width:100%;height:5%;text-align: center;"><a href="agreement.html" class="hrefClass">uGo电子商务公司用户注册协议</a></div>
+		 <div style="width:100%;height:5%"></div>
+	  <div  id="searchcheckbox"><input type="checkbox" onclick="changeValue(this);"/>同意用户协议</div>
+		 <div style="width:100%;height:5%"></div>
+	  <div  id="searchbutton"><input type="button" onmouseout="lowlight();" onmouseover="highLight();" id="mysearchbutton" value="注  册" onclick="tongyixieding();fasongqingqiu();"></div>
+	 </div>
+	</div>
+	<div id="cover">
+		<div id="lunxunid">
+			<img src="../../image/background/lunxun1.jpg" id="lunxunpic">
+			<div style="margin-left: 40%;">
+				<div id="lunxundot0" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,1);"></div>
+				<div id="lunxundot1" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,2);"></div>
+				<div id="lunxundot2" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,3);"></div>
+				<div id="lunxundot3" class="lunxundotclass" onmouseleave="chlunxunpicSelfout(this);"  onmouseover="chlunxunpicSelfover(this,4);"></div>
+			</div>
+		</div>
+	</div>
+   </div>
+  </article>
+  <hr/>
+  <footer>
+  </footer>
+  <script type="text/javascript" src="../../js/register.js"></script>
+ </body>
+</html>
